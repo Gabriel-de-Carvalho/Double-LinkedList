@@ -1,5 +1,7 @@
 package adt.linkedList;
 
+import java.util.Queue;
+
 public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 		DoubleLinkedList<T> {
 
@@ -9,14 +11,12 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 		super();
 		this.last = new DoubleLinkedListNode<T>();
 		this.setHead(last);
-
 	}
 	
 	
 	@Override
 	public void insertFirst(T element) {
 		DoubleLinkedListNode<T> aux = new DoubleLinkedListNode<T>(element, new DoubleLinkedListNode<T>(), new DoubleLinkedListNode<T>());
-		// TODO Auto-generated method stub
 		if(isEmpty()) {
 			this.setHead(aux);
 			this.head.setNext(new DoubleLinkedListNode<T>());
@@ -34,26 +34,47 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 
 	@Override
 	public void removeFirst() {
-		// TODO Auto-generated method stub
-		if(this.head.equals(this.last)) {
+		if (size() == 1) {
 			this.last = new DoubleLinkedListNode<T>();
 			this.setHead(last);
 		} else {
+			head.data = null;
 			this.head = head.getNext();
-			((DoubleLinkedListNode<T>) this.head).setPrevious(new DoubleLinkedListNode<T>());
 		}
 	}
 
 	@Override
 	public void removeLast() {
-		// TODO Auto-generated method stub
-		if(this.head.equals(this.last)) {
-			this.last = new DoubleLinkedListNode<T>();
-			this.setHead(last);
-		} else {
-			this.last = this.last.getPrevious();
-			this.last.setNext(new DoubleLinkedListNode<T>());
+		int tam = size();
+		if (tam > 0) {
+			if (tam == 1) {
+				head = last = newNIL();
+			} else {
+				last = last.getPrevious();
+				last.setNext(newNIL());
+			}
 		}
+	}
+	
+	@Override
+	public void insert(T element) {
+		if (isEmpty()) {
+			head = last = new DoubleLinkedListNode<T> (
+					element,
+					new DoubleLinkedListNode<T>(),
+					new DoubleLinkedListNode<T>()
+			);
+		} else {
+			last.next = newNIL();
+			next(last).previous = last;
+			last = next(last);
+			last.data = element;
+			last.next = newNIL();
+		}
+	}
+	
+	private DoubleLinkedListNode<T> newNIL() {
+		return new DoubleLinkedListNode<T>();
 	}
 
 	public DoubleLinkedListNode<T> getLast() {
@@ -62,6 +83,10 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 
 	public void setLast(DoubleLinkedListNode<T> last) {
 		this.last = last;
+	}
+	
+	private DoubleLinkedListNode<T> next(DoubleLinkedListNode<T> node) {
+		return (DoubleLinkedListNode<T>) node.next;
 	}
 
 }
