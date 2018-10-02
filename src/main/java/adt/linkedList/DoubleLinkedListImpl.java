@@ -4,25 +4,30 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 		DoubleLinkedList<T> {
 
 	protected DoubleLinkedListNode<T> last;
+	
+	public DoubleLinkedListImpl() {
+		super();
+		this.last = new DoubleLinkedListNode<T>();
+		this.setHead(last);
 
+	}
+	
+	
 	@Override
 	public void insertFirst(T element) {
+		DoubleLinkedListNode<T> aux = new DoubleLinkedListNode<T>(element, new DoubleLinkedListNode<T>(), new DoubleLinkedListNode<T>());
 		// TODO Auto-generated method stub
 		if(isEmpty()) {
-			this.head.setData(element);
+			this.setHead(aux);
 			this.head.setNext(new DoubleLinkedListNode<T>());
-			this.last.setData(head.getData());
-			this.last.setNext(new DoubleLinkedListNode<T>());
+			((DoubleLinkedListNode<T>) this.head).setPrevious(new DoubleLinkedListNode<T>());
+			this.setLast(aux);
 		} else {
-			if(last.getPrevious().isNIL()) {
-				DoubleLinkedListNode<T> aux = new DoubleLinkedListNode<T>(element,   new DoubleLinkedListNode<T>(), new DoubleLinkedListNode<T>());
-				aux.setNext(this.getHead());
-				
-				this.head = aux;
-			} else {
-			DoubleLinkedListNode<T> aux = new DoubleLinkedListNode<T>(element,   new DoubleLinkedListNode<T>(), new DoubleLinkedListNode<T>());
 			aux.setNext(this.getHead());
-			this.head = aux;
+			((DoubleLinkedListNode<T>) this.getHead()).setPrevious(aux);
+			this.setHead(aux);
+			if(this.getLast().isNIL()) {
+				this.last.setPrevious((DoubleLinkedListNode<T>) this.getHead());
 			}
 		}
 	}
@@ -31,10 +36,11 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 	public void removeFirst() {
 		// TODO Auto-generated method stub
 		if(this.head.equals(this.last)) {
-			this.head = new SingleLinkedListNode<T>();
 			this.last = new DoubleLinkedListNode<T>();
+			this.setHead(last);
 		} else {
-		this.head = this.head.getNext();
+			this.head = head.getNext();
+			((DoubleLinkedListNode<T>) this.head).setPrevious(new DoubleLinkedListNode<T>());
 		}
 	}
 
@@ -42,10 +48,11 @@ public class DoubleLinkedListImpl<T> extends SingleLinkedListImpl<T> implements
 	public void removeLast() {
 		// TODO Auto-generated method stub
 		if(this.head.equals(this.last)) {
-			this.head = new SingleLinkedListNode<T>();
 			this.last = new DoubleLinkedListNode<T>();
+			this.setHead(last);
 		} else {
-			
+			this.last = this.last.getPrevious();
+			this.last.setNext(new DoubleLinkedListNode<T>());
 		}
 	}
 

@@ -3,7 +3,8 @@ package adt.linkedList;
 public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	protected SingleLinkedListNode<T> head;
-
+	
+	
 	public SingleLinkedListImpl() {
 		this.head = new SingleLinkedListNode<T>();
 	}

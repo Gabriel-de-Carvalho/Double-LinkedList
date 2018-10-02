@@ -4,6 +4,7 @@ public class DoubleLinkedListNode<T> extends SingleLinkedListNode<T> {
 	protected DoubleLinkedListNode<T> previous;
 
 	public DoubleLinkedListNode() {
+		super();
 	}
 
 	public DoubleLinkedListNode(T data, DoubleLinkedListNode<T> next,
